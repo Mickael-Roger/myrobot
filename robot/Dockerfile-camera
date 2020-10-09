@@ -1,4 +1,7 @@
-FROM mickaelroger78/rpipython:1.0
+FROM python:3.10.0a1-slim
+
+RUN apt update && \
+    apt install -y gcc 
 
 RUN mkdir /app
 COPY src/ /app/

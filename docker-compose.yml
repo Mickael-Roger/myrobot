@@ -1,32 +1,39 @@
 version: "3"
 services:
   rabbitmq:
-    image: "rabbitmq:alpine"
+    build:
+      context: ./robot/
+      dockerfile: Dockerfile-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: robot
-      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
+      RABBITMQ_DEFAULT_PASS: 2a55f70a841f18b97c3a7db939b7adc9e34a0f1b
     restart: always
     ports:
       - "5672:5672"
+      - "1883:1883"
   robot:
     build:
       context: ./robot/
       dockerfile: Dockerfile-robot
     environment:
       RABBITMQ_DEFAULT_USER: robot
-      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
+      RABBITMQ_DEFAULT_PASS: 2a55f70a841f18b97c3a7db939b7adc9e34a0f1b
+      PYTHONUNBUFFERED: 1
   camera:
     build:
       context: ./robot/
       dockerfile: Dockerfile-camera
     environment:
       RABBITMQ_DEFAULT_USER: robot
-      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
+      RABBITMQ_DEFAULT_PASS: 2a55f70a841f18b97c3a7db939b7adc9e34a0f1b
+      PYTHONUNBUFFERED: 1
   motors:
     build:
       context: ./robot/
       dockerfile: Dockerfile-motors
+    privileged: true
     environment:
       RABBITMQ_DEFAULT_USER: robot
-      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
+      RABBITMQ_DEFAULT_PASS: 2a55f70a841f18b97c3a7db939b7adc9e34a0f1b
+      PYTHONUNBUFFERED: 1
 
