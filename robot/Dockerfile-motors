@@ -1,4 +1,4 @@
-FROM mickaelroger78/rpipython:0.1
+FROM mickaelroger78/rpipython:1.0
 
 RUN mkdir /app
 COPY src/ /app/
