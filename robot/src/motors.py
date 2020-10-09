@@ -18,7 +18,7 @@ class Motors():
 
 
         # Setup board pins
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
 
         GPIO.setup(self.inLeft1,GPIO.OUT)
         GPIO.setup(self.inLeft2,GPIO.OUT)
@@ -36,8 +36,8 @@ class Motors():
         self.pLeft = GPIO.PWM(self.enLeft,1000)
         self.pRight = GPIO.PWM(self.enRight,1000)
 
-        self.pLeft.star(100)
-        self.pRight.star(100)
+        self.pLeft.start(100)
+        self.pRight.start(100)
 
             
     
