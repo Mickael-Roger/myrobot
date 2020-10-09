@@ -78,9 +78,12 @@ class Motors():
 
 
 
-    def move(self, ch, method, properties, body):
+    #def move(self, ch, method, properties, body):
+    def dispatch(self, client, userdata, message):
+
+        print('Reicv : ' + str(message))
         try:
-            val = json.loads(body.decode('utf8'))
+            val = json.loads(message.payload.decode('utf8'))
             
             if (val['left'] + val['right'] > 100) or val['speed'] < -100 or val['speed'] > 100:
                 val['left'] = val['right'] = val['speed'] = 0
