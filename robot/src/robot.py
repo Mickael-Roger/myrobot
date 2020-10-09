@@ -10,7 +10,7 @@ class Robot():
         for srv in ('camera', 'motors',):
             self.services[srv] = msg.msg(msgName=srv)
 
-        self.queue = msg.msg(msgName='camera')
+        self.queue = msg.msg(msgName='external')
 
         self.actions = { "takePicture": self.takePicture,
                          "move": self.move,
@@ -51,17 +51,18 @@ class Robot():
         pass
 
 
-    def dispatch(self, ch, method, properties, body):
+    #def dispatch(self, ch, method, properties, body):
+    def dispatch(self, client, userdata, message):
 
         # Orchestrate actions
         try:
-            message = json.loads(body.decode('utf8'))
+            msg = json.loads(message.payload.decode('utf8'))
 
-            if message['action'] in self.actions:
-                if 'params' not in message:
-                    message['params'] = ""
+            if msg['action'] in self.actions:
+                if 'params' not in msg:
+                    msg['params'] = ""
                 
-                self.actions['action'](params=message['params'])
+                self.actions['action'](params=msg['params'])
         except:
             pass
 

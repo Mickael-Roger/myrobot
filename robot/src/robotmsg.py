@@ -8,7 +8,7 @@ class msg():
     def __init__(self, msgName):
         #rabbitmqUser = os.environ['RABBITMQ_DEFAULT_USER']
         #rabbitmqPasswd = os.environ['RABBITMQ_DEFAULT_PASS']
-        self.msgName = msgName
+        self.msgName = 'robot/' + msgName
         
         connect=0
         while connect == 0:
@@ -28,6 +28,7 @@ class msg():
     
         
     def listen(self, callback):
+        self.client.subscribe(self.msgName)
         self.client.on_message=callback
         self.client.loop_forever()
 
