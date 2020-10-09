@@ -1,4 +1,4 @@
-FROM python:rc-alpine
+FROM python:3.10.0a1-slim
 
-RUN apk add gcc && \
-    apk add libc-dev
+RUN apt update && \
+    apt install -y gcc 
