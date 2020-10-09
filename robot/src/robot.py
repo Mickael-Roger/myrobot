@@ -28,19 +28,13 @@ class Robot():
 
     def move(self, params):
         # If no obstacles
-        print("move " + str(type(msg['params'])), flush=True)
         try:
             if 'motors' in self.services:
 
-                print("move motors " + type(params))
-                values = json.loads(params)
-                print("move values " + str(values))
-                
-                message = { "speed": values['speed'],
-                            "left": values['left'],
-                            "right": values['right']
+                message = { "speed": params['speed'],
+                            "left": params['left'],
+                            "right": params['right']
                         }
-                print("move json " + str(json.dumps(message)))
                 
                 self.services['motors'].send(msg=json.dumps(message))
 
@@ -58,16 +52,14 @@ class Robot():
 
 
     def dispatch(self, client, userdata, message):
-        print("reicv " + str(message), flush=True)
         # Orchestrate actions
         try:
             msg = json.loads(message.payload.decode('utf8'))
 
             if msg['action'] in self.actions:
                 if 'params' not in msg:
-                    msg['params'] = ""
+                    msg['params'] = {}
                 
-                print("move " + str(type(msg['params'])), flush=True)
                 self.actions[msg['action']](params=msg['params'])
         except:
             pass
