@@ -33,12 +33,13 @@ class Robot():
             if 'motors' in self.services:
                 print("move motors " + str(params))
                 values = json.loads(params.decode('utf8'))
+                print("move values " + str(values))
                 message = { "speed": values['speed'],
                             "left": values['left'],
                             "right": values['right']
                         }
-                
-                self.services['motors'].send(json.dumps(message))
+                print("move json " + str(json.dumps(message)))
+                self.services['motors'].send(msg=json.dumps(message))
 
         except:
             print("move error")
