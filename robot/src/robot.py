@@ -28,9 +28,10 @@ class Robot():
 
     def move(self, params):
         # If no obstacles
-
+        print("move")
         try:
             if 'motors' in self.services:
+                print("move motors " + str(params))
                 values = json.loads(params.decode('utf8'))
                 message = { "speed": values['speed'],
                             "left": values['left'],
@@ -40,6 +41,7 @@ class Robot():
                 self.services['motors'].send(json.dumps(message))
 
         except:
+            print("move error")
             pass
 
 
@@ -57,13 +59,18 @@ class Robot():
         # Orchestrate actions
         try:
             msg = json.loads(message.payload.decode('utf8'))
+            print("loaded")
 
             if msg['action'] in self.actions:
+                print("actions")
                 if 'params' not in msg:
                     msg['params'] = ""
                 
+                print("send")
                 self.actions['action'](params=msg['params'])
+                print("done")
         except:
+            print("error")
             pass
 
 
