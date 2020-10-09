@@ -3,21 +3,23 @@ services:
   rabbitmq:
     image: "rabbitmq:alpine"
     environment:
-      RABBITMQ_DEFAULT_USER: hoover
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: robot
+      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
     restart: always
-  hoover:
+    ports:
+      - "5672:5672"
+  robot:
     build:
-      context: ./hoover/
-      dockerfile: Dockerfile-hoover
+      context: ./robot/
+      dockerfile: Dockerfile-robot
     environment:
-      RABBITMQ_DEFAULT_USER: hoover
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: robot
+      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
   camera:
     build:
-      context: ./hoover/
+      context: ./robot/
       dockerfile: Dockerfile-camera
     environment:
-      RABBITMQ_DEFAULT_USER: hoover
-      RABBITMQ_DEFAULT_PASS: password
+      RABBITMQ_DEFAULT_USER: robot
+      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
 

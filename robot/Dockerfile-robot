@@ -5,4 +5,4 @@ COPY src/ /app/
 
 RUN pip install -r /app/requirements.txt
 
-ENTRYPOINT ["python", "/app/hoover.py"]
+ENTRYPOINT ["python", "/app/robot.py"]
