@@ -28,7 +28,7 @@ class Robot():
 
     def move(self, params):
         # If no obstacles
-        print("move " + type(params))
+        print("move " + str(type(msg['params'])), flush=True)
         try:
             if 'motors' in self.services:
 
@@ -67,6 +67,7 @@ class Robot():
                 if 'params' not in msg:
                     msg['params'] = ""
                 
+                print("move " + str(type(msg['params'])), flush=True)
                 self.actions[msg['action']](params=msg['params'])
         except:
             pass
