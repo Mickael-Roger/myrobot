@@ -29,7 +29,8 @@ class msg():
         
     def listen(self, callback):
         self.client.on_message=callback
-        self.client.loop_start()
+        self.client.loop_forever()
+
         #self.channel.basic_consume(queue=self.msgName,
         #              auto_ack=True,
         #              on_message_callback=callback)

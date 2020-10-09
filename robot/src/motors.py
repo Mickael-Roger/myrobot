@@ -79,7 +79,7 @@ class Motors():
 
 
     #def move(self, ch, method, properties, body):
-    def dispatch(self, client, userdata, message):
+    def move(self, client, userdata, message):
 
         print('Reicv : ' + str(message))
         try:
