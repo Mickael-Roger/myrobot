@@ -1,2 +1,3 @@
-pika
+#pika
 RPi.GPIO
+paho-mqtt
