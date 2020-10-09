@@ -1,0 +1,23 @@
+version: "3"
+services:
+  rabbitmq:
+    image: "rabbitmq:alpine"
+    environment:
+      RABBITMQ_DEFAULT_USER: hoover
+      RABBITMQ_DEFAULT_PASS: password
+    restart: always
+  hoover:
+    build:
+      context: ./hoover/
+      dockerfile: Dockerfile-hoover
+    environment:
+      RABBITMQ_DEFAULT_USER: hoover
+      RABBITMQ_DEFAULT_PASS: password
+  camera:
+    build:
+      context: ./hoover/
+      dockerfile: Dockerfile-camera
+    environment:
+      RABBITMQ_DEFAULT_USER: hoover
+      RABBITMQ_DEFAULT_PASS: password
+
