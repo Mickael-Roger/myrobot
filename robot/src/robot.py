@@ -67,7 +67,7 @@ class Robot():
                     msg['params'] = ""
                 
                 print("send")
-                self.actions['action'](params=msg['params'])
+                self.actions[msg['action']](params=msg['params'])
                 print("done")
         except:
             print("error")
