@@ -22,4 +22,11 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: robot
       RABBITMQ_DEFAULT_PASS: HQia9PUlAk
+  motors:
+    build:
+      context: ./robot/
+      dockerfile: Dockerfile-motors
+    environment:
+      RABBITMQ_DEFAULT_USER: robot
+      RABBITMQ_DEFAULT_PASS: HQia9PUlAk
 
