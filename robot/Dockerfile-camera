@@ -1,5 +1,7 @@
 FROM python:rc-alpine
 
+RUN apk add gcc
+
 RUN mkdir /app
 COPY src/ /app/
 
