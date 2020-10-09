@@ -31,8 +31,8 @@ class Robot():
         print("move")
         try:
             if 'motors' in self.services:
-                print("move motors " + str(params))
-                values = json.loads(params.decode('utf8'))
+                print("move motors " + type(params))
+                values = json.loads(params)
                 print("move values " + str(values))
                 message = { "speed": values['speed'],
                             "left": values['left'],
