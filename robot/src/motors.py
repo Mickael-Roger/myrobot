@@ -7,6 +7,8 @@ class Motors():
     def __init__(self):
         self.queue = msg.msg(msgName='motors')
 
+        GPIO.setwarnings(False)
+
         # Define ports
         self.inLeft1 = 36
         self.inLeft2 = 38
@@ -53,6 +55,33 @@ class Motors():
 
 
 
+    def move(self, left, right):
+        self.pLeft.ChangeDutyCycle(0)
+        self.pRight.ChangeDutyCycle(0)
+
+        # Backward
+        if left < 0:
+            left = abs(left)
+            right = abs(right)
+            GPIO.output(self.inLeft1,GPIO.LOW)
+            GPIO.output(self.inLeft2,GPIO.HIGH)
+            GPIO.output(self.inRight1,GPIO.LOW)
+            GPIO.output(self.inRight2,GPIO.HIGH)
+
+        # Forward
+        else:
+            right = abs(right)
+            left = abs(left)
+            GPIO.output(self.inLeft1,GPIO.HIGH)
+            GPIO.output(self.inLeft2,GPIO.LOW)
+            GPIO.output(self.inRight1,GPIO.HIGH)
+            GPIO.output(self.inRight2,GPIO.LOW)
+
+
+        self.pLeft.ChangeDutyCycle(left)
+        self.pRight.ChangeDutyCycle(right)
+
+
 
     def rotate(self, left, right):
         self.pLeft.ChangeDutyCycle(0)
@@ -78,13 +107,12 @@ class Motors():
 
 
 
-    #def move(self, ch, method, properties, body):
-    def move(self, client, userdata, message):
-
-        print('Reicv : ' + str(message))
+    def dispatch(self, client, userdata, message):
+        print("Reicv : " + str(message.payload))
         try:
             val = json.loads(message.payload.decode('utf8'))
             
+            # Bad values, something's wong, better to stop
             if (val['left'] + val['right'] > 100) or val['speed'] < -100 or val['speed'] > 100:
                 val['left'] = val['right'] = val['speed'] = 0
 
@@ -103,13 +131,22 @@ class Motors():
                 else:
                     self.stop()
 
-            print('Reicv : ' + str(val))
+            # Want to move
+            else:
+                if val['left'] > val['right']:
+                    right = (val['right'] / val['left']) * val['speed']
+                    left = val['speed']
+                else:
+                    left = (val['left'] / val['right']) * val['speed']
+                    right = val['speed']
+
+                self.move(left=left, right=right)
 
         except:
             pass
 
     def start(self):
-        self.queue.listen(callback=self.move)
+        self.queue.listen(callback=self.dispatch)
 
 
 

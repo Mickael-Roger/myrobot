@@ -51,9 +51,9 @@ class Robot():
         pass
 
 
-    #def dispatch(self, ch, method, properties, body):
     def dispatch(self, client, userdata, message):
 
+        print("Reicv : " + str(message.payload))
         # Orchestrate actions
         try:
             msg = json.loads(message.payload.decode('utf8'))
