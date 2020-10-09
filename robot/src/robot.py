@@ -58,7 +58,7 @@ class Robot():
 
 
     def dispatch(self, client, userdata, message):
-
+        print("reicv " + str(message), flush=True)
         # Orchestrate actions
         try:
             msg = json.loads(message.payload.decode('utf8'))
