@@ -1,7 +1,5 @@
 FROM mickaelroger78/rpipython:1.0
 
-RUN apk add gcc
-
 RUN mkdir /app
 COPY src/ /app/
 
