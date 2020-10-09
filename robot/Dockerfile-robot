@@ -1,4 +1,4 @@
-FROM python:rc-alpine
+FROM mickaelroger78/rpipython:0.1
 
 RUN apk add gcc
 

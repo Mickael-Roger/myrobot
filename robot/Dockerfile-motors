@@ -1,6 +1,4 @@
-FROM python:rc-alpine
-
-RUN apk add gcc
+FROM mickaelroger78/rpipython:0.1
 
 RUN mkdir /app
 COPY src/ /app/
