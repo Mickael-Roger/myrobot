@@ -89,17 +89,17 @@ class Motors():
 
         if left < 0:
             left = abs(left)
-            GPIO.output(self.inLeft1,GPIO.LOW)
-            GPIO.output(self.inLeft2,GPIO.HIGH)
-            GPIO.output(self.inRight1,GPIO.HIGH)
-            GPIO.output(self.inRight2,GPIO.LOW)
-
-        else:
-            right = abs(right)
             GPIO.output(self.inLeft1,GPIO.HIGH)
             GPIO.output(self.inLeft2,GPIO.LOW)
             GPIO.output(self.inRight1,GPIO.LOW)
             GPIO.output(self.inRight2,GPIO.HIGH)
+
+        else:
+            right = abs(right)
+            GPIO.output(self.inLeft1,GPIO.LOW)
+            GPIO.output(self.inLeft2,GPIO.HIGH)
+            GPIO.output(self.inRight1,GPIO.HIGH)
+            GPIO.output(self.inRight2,GPIO.LOW)
 
 
         self.pLeft.ChangeDutyCycle(left)
@@ -108,7 +108,6 @@ class Motors():
 
 
     def dispatch(self, client, userdata, message):
-        print("Reicv : " + str(message.payload))
         try:
             val = json.loads(message.payload.decode('utf8'))
             

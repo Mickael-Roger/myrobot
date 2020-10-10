@@ -11,7 +11,7 @@ class msg():
         connect=0
         while connect == 0:
             try:
-                self.client = mqtt.Client(os.uname()[1])
+                self.client = mqtt.Client()
                 self.client.connect('mosquitto')
                 connect=1
             except:
