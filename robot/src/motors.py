@@ -133,11 +133,11 @@ class Motors():
             # Want to move
             else:
                 if val['left'] > val['right']:
-                    right = (val['right'] / val['left']) * val['speed']
-                    left = val['speed']
-                else:
-                    left = (val['left'] / val['right']) * val['speed']
+                    left = (val['right'] / val['left']) * val['speed']
                     right = val['speed']
+                else:
+                    right = (val['left'] / val['right']) * val['speed']
+                    left = val['speed']
 
                 self.move(left=left, right=right)
 
