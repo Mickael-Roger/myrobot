@@ -1,7 +1,7 @@
-FROM python:3.10.0a1-slim
+FROM jjanzic/docker-python3-opencv
 
 RUN apt update && \
-    apt install -y gcc python3-opencv
+    apt install -y gcc
 
 RUN mkdir /app
 COPY src/ /app/
