@@ -1,7 +1,7 @@
 FROM python:3.10.0a1-slim
 
 RUN apt update && \
-    apt install -y gcc 
+    apt install -y gcc && python3-opencv
 
 RUN mkdir /app
 COPY src/ /app/

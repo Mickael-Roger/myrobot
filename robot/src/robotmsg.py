@@ -13,6 +13,7 @@ class msg():
             try:
                 self.client = mqtt.Client()
                 self.client.connect('mosquitto')
+                self.client.max_queued_messages_set(24)
                 connect=1
             except:
                 print('Could not connect to MQTT ... Retrying')
