@@ -72,8 +72,8 @@ void startGyro(){
 void updatePosition(){
    
   accelgyro.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-  angleFront=0.80*(angleFront+float(gy)*0.01/131) + 0.20*atan2((double)ax,(double)az)*180/PI;
-  angleSide=0.80*(angleSide+float(gx)*0.01/131) + 0.20*atan2((double)ay,(double)az)*180/PI;
+  angleFront=0.20*(angleFront+float(gy)*0.01/131) + 0.80*atan2((double)ax,(double)az)*180/PI;
+  angleSide=0.20*(angleSide+float(gx)*0.01/131) + 0.80*atan2((double)ay,(double)az)*180/PI;
   
 }
 
@@ -118,42 +118,45 @@ void setup() {
 }
 
 int i=0;
-float front;
-float left;
-float tmp;
+float front, left, avgAngleFront=0, avgAngleSide=0;
 char buf[80];
 String message;
 
 void loop() {
   updatePosition();
-  if( i>10 ){
+  avgAngleFront=(avgAngleFront*i + angleFront)/(i+1);
+  avgAngleSide=(avgAngleSide*i + angleSide)/(i+1);
+  
+  
+  if( i>3 ){
 
-      tmp = angleFront;
-      if(angleFront < -90){
-        tmp=-90.0;
+      if(avgAngleFront < -90){
+        avgAngleFront=-90.0;
       }
-      if(angleFront > 90){
-        tmp=90.0;
+      if(avgAngleFront > 90){
+        avgAngleFront=90.0;
       }
       
-      front=-0.11111*tmp;
+      front=-0.11111*avgAngleFront;
 
-      tmp = angleSide;
+
       if(angleSide < -90){
-        tmp=-90.0;
+        angleSide=-90.0;
       }
       if(angleSide > 90){
-        tmp=90.0;
+        angleSide=90.0;
       }
-      left=5+tmp*-0.05556;
+      left=5+angleSide*-0.05556;
 
 
-    message="{\"action\": \"move\", \"params\": {\"left\": " + String(round(left)*10) + ", \"right\": " + String(100 - round(left)*10) + ", \"speed\": " + String(round(front)*10) + "}";
+    message="{\"action\": \"move\", \"params\": {\"left\": " + String(round(left)*10) + ", \"right\": " + String(100 - round(left)*10) + ", \"speed\": " + String(round(front)*10) + "}}";
     message.toCharArray(buf, 80);
     client.publish("robot/external", buf);
-    Serial.println(message);
+    //Serial.println(message);
 
     i=0;
+    avgAngleFront=0;
+    avgAngleSide=0;
   }
 
   i++;

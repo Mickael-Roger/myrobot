@@ -12,18 +12,11 @@ class Robot():
 
         self.queue = msg.msg(msgName='external')
 
-        self.actions = { "takePicture": self.takePicture,
-                         "move": self.move,
-                         "videoStream": self.videoStream,
+        self.actions = { "move": self.move,
+                         "video": self.videoStream,
                          "moveCamera": self.moveCamera
                         }
 
-
-
-            
-    def takePicture(self, params):
-        if 'camera' in self.services:
-            self.services['camera'].send('{"action": "takePicture"}')
 
 
     def move(self, params):
@@ -45,7 +38,10 @@ class Robot():
 
 
     def videoStream(self, params):
-        pass
+        if 'camera' in self.services:
+            self.services['camera'].send(msg=params)
+
+
 
     def moveCamera(self, params):
         pass
