@@ -39,7 +39,7 @@ class Robot():
 
     def videoStream(self, params):
         if 'camera' in self.services:
-            self.services['camera'].send(msg=params)
+            self.services['camera'].send(msg=json.dumps(params))
 
 
 
