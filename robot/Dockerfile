@@ -17,10 +17,11 @@ RUN apt update && \
         libtiff-dev \
         libavformat-dev \
         libpq-dev \
+        python3-numpy \
     && rm -rf /var/lib/apt/lists/*
 
 
-RUN pip install numpy
+#RUN pip install numpy
 
 WORKDIR /
 ENV OPENCV_VERSION="4.4.0"
