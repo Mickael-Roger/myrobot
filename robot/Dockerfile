@@ -1,4 +1,4 @@
-FROM python:3.10.0a1-slim
+FROM ubuntu
 
 RUN apt update && \
     apt install -y \
