@@ -18,6 +18,7 @@ RUN apt update && \
         libavformat-dev \
         libpq-dev \
         python3-numpy \
+        python3 \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -41,16 +42,16 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
   -DBUILD_TESTS=OFF \
   -DBUILD_PERF_TESTS=OFF \
   -DCMAKE_BUILD_TYPE=RELEASE \
-  -DCMAKE_INSTALL_PREFIX=$(python -c "import sys; print(sys.prefix)") \
-  -DPYTHON_EXECUTABLE=$(which python) \
-  -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
-  -DPYTHON_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
+  -DCMAKE_INSTALL_PREFIX=$(python3 -c "import sys; print(sys.prefix)") \
+  -DPYTHON_EXECUTABLE=$(which python3) \
+  -DPYTHON_INCLUDE_DIR=$(python3 -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
+  -DPYTHON_PACKAGES_PATH=$(python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
   .. \
 && make install \
 && rm /${OPENCV_VERSION}.zip \
 && rm -r /opencv-${OPENCV_VERSION}
 
 RUN ln -s \
-  /usr/local/python/cv2/python-3.10/cv2.cpython-37m-x86_64-linux-gnu.so \
-  /usr/local/lib/python3.10/site-packages/cv2.so
+  /usr/local/python/cv2/python-3/cv2.cpython-37m-x86_64-linux-gnu.so \
+  /usr/local/lib/python3/site-packages/cv2.so
 
