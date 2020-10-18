@@ -1,6 +1,8 @@
 import robotmsg as msg
 from threading import Thread
 import json
+import io
+import numpy as np
 
 import cv2 as cv
 
@@ -20,7 +22,7 @@ class Stream(Thread):
             while self.stop != 0:
                 ret, myframe = self.cap.read()
                 if ret:
-                    np_bytes = BytesIO()
+                    np_bytes = io.BytesIO()
                     np.save(np_bytes, myframe, allow_pickle=True)
                     np_bytes = np_bytes.getvalue()
                     print("Ready to send : " + str(type(myframe.tobytes())))
