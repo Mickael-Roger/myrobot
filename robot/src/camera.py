@@ -20,7 +20,8 @@ class Stream(Thread):
             while self.stop != 0:
                 ret, myframe = self.cap.read()
                 if ret:
-                    self.stream.send(msg=myframe)
+                    print("Ready to send : " + str(type(myframe.tobytes())))
+                    self.stream.send(msg=myframe.tobytes())
 
             
     def stopStream(self):
