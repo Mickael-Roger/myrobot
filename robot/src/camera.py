@@ -39,6 +39,8 @@ class Camera():
 
 
     def dispatch(self, client, userdata, message):
+
+        print("camera received: " + str(message.payload) + " - " + str(type(message.payload)))
         
         try:
             msg = json.loads(message.payload.decode('utf8'))
