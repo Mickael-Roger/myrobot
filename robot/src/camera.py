@@ -20,8 +20,11 @@ class Stream(Thread):
             while self.stop != 0:
                 ret, myframe = self.cap.read()
                 if ret:
+                    np_bytes = BytesIO()
+                    np.save(np_bytes, myframe, allow_pickle=True)
+                    np_bytes = np_bytes.getvalue()
                     print("Ready to send : " + str(type(myframe.tobytes())))
-                    self.stream.send(msg=myframe.tobytes())
+                    self.stream.send(msg=np_bytes)
 
             
     def stopStream(self):
