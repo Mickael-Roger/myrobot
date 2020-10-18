@@ -5,4 +5,4 @@ COPY src/ /app/
 
 RUN pip install -r /app/requirements.txt
 
-ENTRYPOINT ["python", "/app/camera.py"]
+ENTRYPOINT ["python3", "/app/camera.py"]
