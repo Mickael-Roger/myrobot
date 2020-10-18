@@ -1,7 +1,4 @@
-FROM jjanzic/docker-python3-opencv
-
-RUN apt update && \
-    apt install -y gcc
+FROM sixsq/opencv-python:latest
 
 RUN mkdir /app
 COPY src/ /app/
