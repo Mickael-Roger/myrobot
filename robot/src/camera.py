@@ -31,14 +31,15 @@ class Stream(Thread):
                         s.listen()
                         conn, addr = s.accept()
 
-                        with conn:      
-                            ret, myframe = self.cap.read()
-                            if ret:
-                                np_bytes = io.BytesIO()
-                                np.save(np_bytes, myframe, allow_pickle=True)
-                                np_bytes = np_bytes.getvalue()
-                                #self.stream.send(msg=np_bytes)
-                                conn.sendall(b'Image\n')
+                        with conn:
+                            while True:   
+                                ret, myframe = self.cap.read()
+                                if ret:
+                                    np_bytes = io.BytesIO()
+                                    np.save(np_bytes, myframe, allow_pickle=True)
+                                    np_bytes = np_bytes.getvalue()
+                                    #self.stream.send(msg=np_bytes)
+                                    conn.sendall(b'Image\n')
             except:
                 time.sleep(1)
                 pass
