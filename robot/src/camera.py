@@ -3,6 +3,7 @@ from threading import Thread
 import json
 import io
 import numpy as np
+import time
 
 import cv2 as cv
 
@@ -21,21 +22,26 @@ class Stream(Thread):
     def run(self):
         self.stop = 1
         self.cap = cv.VideoCapture(0)
-        if self.cap.isOpened():
 
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.bind(('', 1884))
-                s.listen()
-                conn, addr = s.accept()
-                with conn:
-                    while self.stop != 0:
-                        ret, myframe = self.cap.read()
-                        if ret:
-                            np_bytes = io.BytesIO()
-                            np.save(np_bytes, myframe, allow_pickle=True)
-                            np_bytes = np_bytes.getvalue()
-                            #self.stream.send(msg=np_bytes)
-                            conn.sendall(b'Image\n')
+        while self.stop != 0:
+            try:
+                if self.cap.isOpened():
+                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                        s.bind(('', 1884))
+                        s.listen()
+                        conn, addr = s.accept()
+
+                        with conn:      
+                            ret, myframe = self.cap.read()
+                            if ret:
+                                np_bytes = io.BytesIO()
+                                np.save(np_bytes, myframe, allow_pickle=True)
+                                np_bytes = np_bytes.getvalue()
+                                #self.stream.send(msg=np_bytes)
+                                conn.sendall(b'Image\n')
+            except:
+                time.sleep(1)
+                pass
 
      
 

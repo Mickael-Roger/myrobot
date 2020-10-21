@@ -11,17 +11,13 @@ import time
 
 class Viewer():
 
-    def __init__(self):
-
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as self.s:
-            self.s.connect(('192.168.1.26', 1884))
-
-
-
 
     def run(self):
-        while True:
-            data = self.s.recv(1024)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect(('192.168.1.26', 1884))
+            
+            #while True:
+            data = s.recv(1024)
             print("Reicv" + str(data))
 
 
