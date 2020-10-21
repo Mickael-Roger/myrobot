@@ -16,9 +16,10 @@ class Viewer():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect(('192.168.1.26', 1884))
             
-            #while True:
-            data = s.recv(1024)
-            print("Reicv" + str(data))
+            while True:
+                data = s.recv(500000)
+                frame = np.load(io.BytesIO(data), allow_pickle=True)
+                print("Reicv" + str(type(frame)))
 
 
 

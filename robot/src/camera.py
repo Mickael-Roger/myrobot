@@ -39,7 +39,7 @@ class Stream(Thread):
                                     np.save(np_bytes, myframe, allow_pickle=True)
                                     np_bytes = np_bytes.getvalue()
                                     #self.stream.send(msg=np_bytes)
-                                    conn.sendall(b'Image\n')
+                                    conn.sendall(np_bytes)
             except:
                 time.sleep(1)
                 pass
