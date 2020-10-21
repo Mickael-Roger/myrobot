@@ -6,6 +6,7 @@ import socket
 import cv2
 
 import time
+import functools
 
 
 
@@ -17,12 +18,10 @@ class Viewer():
             s.connect(('192.168.1.26', 1884))
             
             while True:
-                data = s.recv(10000)
-                print("Reicv: " + str(data))
-                #frame = np.load(io.BytesIO(data), allow_pickle=True)
-                #print("Reicv" + str(type(frame)))
-                print("")
-                print("")
+                data = b''.join(iter(functools.partial(s.recv, 1000), b'---ENDFRAME---'))
+
+                frame = np.load(io.BytesIO(data), allow_pickle=True)
+                print("Reicv" + str(type(frame)))
 
 
 

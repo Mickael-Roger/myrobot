@@ -39,8 +39,9 @@ class Stream(Thread):
                                     np.save(np_bytes, myframe, allow_pickle=True)
                                     np_bytes = np_bytes.getvalue()
                                     #self.stream.send(msg=np_bytes)
+                                    conn.sendall(b'---STARTFRAME---')
                                     conn.sendall(np_bytes)
-                                    conn.sendall(b'---ENDFRAME---')
+                                    conn.flush()
             except:
                 time.sleep(1)
                 pass
