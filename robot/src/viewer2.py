@@ -18,6 +18,7 @@ class Viewer():
             
             while True:
                 data = s.recv(500000)
+                print("Type: " + str(type(data)) + " " + str(len(data)))
                 frame = np.load(io.BytesIO(data), allow_pickle=True)
                 print("Reicv" + str(type(frame)))
 
