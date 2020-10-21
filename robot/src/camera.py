@@ -6,27 +6,38 @@ import numpy as np
 
 import cv2 as cv
 
+import socket
 
 class Stream(Thread):
 
     def __init__(self):
         Thread.__init__(self)
-        self.stream = msg.msg(msgName='stream')
+        #self.stream = msg.msg(msgName='stream')
         self.stop = 0
+
+
 
 
     def run(self):
         self.stop = 1
         self.cap = cv.VideoCapture(0)
         if self.cap.isOpened():
-            while self.stop != 0:
-                ret, myframe = self.cap.read()
-                if ret:
-                    np_bytes = io.BytesIO()
-                    np.save(np_bytes, myframe, allow_pickle=True)
-                    np_bytes = np_bytes.getvalue()
-                    print("Ready to send : " + str(type(myframe.tobytes())))
-                    self.stream.send(msg=np_bytes)
+
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(('', 1884))
+                s.listen()
+                conn, addr = s.accept()
+                with conn:
+                    while self.stop != 0:
+                        ret, myframe = self.cap.read()
+                        if ret:
+                            np_bytes = io.BytesIO()
+                            np.save(np_bytes, myframe, allow_pickle=True)
+                            np_bytes = np_bytes.getvalue()
+                            #self.stream.send(msg=np_bytes)
+                            conn.sendall("Image\n")
+
+     
 
             
     def stopStream(self):

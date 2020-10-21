@@ -29,6 +29,8 @@ services:
     privileged: true
     environment:
       PYTHONUNBUFFERED: 1
+    ports:
+      - "1884:1884"
   motors:
     build:
       context: ./robot/
