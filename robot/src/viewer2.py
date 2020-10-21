@@ -17,10 +17,12 @@ class Viewer():
             s.connect(('192.168.1.26', 1884))
             
             while True:
-                data = s.recv(500000)
-                print("Type: " + str(type(data)) + " " + str(len(data)))
-                frame = np.load(io.BytesIO(data), allow_pickle=True)
-                print("Reicv" + str(type(frame)))
+                data = s.recv(10000)
+                print("Reicv: " + str(data))
+                #frame = np.load(io.BytesIO(data), allow_pickle=True)
+                #print("Reicv" + str(type(frame)))
+                print("")
+                print("")
 
 
 
