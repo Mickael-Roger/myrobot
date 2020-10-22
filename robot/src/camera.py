@@ -27,7 +27,7 @@ class Stream(Thread):
                         while self.stop == 0:   
                             ret, frame = self.cap.read()
                             if ret:
-                                jpgframe=cv2.imencode('.jpg', frame)
+                                _, jpgframe=cv2.imencode('.jpg', frame)
                                 print(type(jpgframe))
                                 conn.sendall(jpgframe)
                                 conn.flush()
