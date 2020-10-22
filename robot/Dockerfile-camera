@@ -1,4 +1,6 @@
 FROM sixsq/opencv-python:latest
+#FROM python:3.10.0a1-slim
+
 
 RUN mkdir /app
 COPY src/ /app/

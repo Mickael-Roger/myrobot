@@ -1,3 +1,4 @@
 #pika
 RPi.GPIO
 paho-mqtt
+cherrypy

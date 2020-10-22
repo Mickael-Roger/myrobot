@@ -1,59 +1,44 @@
 import robotmsg as msg
-from threading import Thread
+from threading import Thread, Condition
 import json
-import io
-import numpy as np
-import time
 
-import cv2 as cv
 
 import socket
+import cv2
+
+
 
 class Stream(Thread):
-
     def __init__(self):
-        Thread.__init__(self)
-        #self.stream = msg.msg(msgName='stream')
-        self.stop = 0
-
-
-
-
-    def run(self):
         self.stop = 1
-        self.cap = cv.VideoCapture(0)
 
-        while self.stop != 0:
-            try:
-                if self.cap.isOpened():
-                    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                        s.bind(('', 1884))
-                        s.listen()
-                        conn, addr = s.accept()
-
-                        with conn:
-                            while True:   
-                                ret, myframe = self.cap.read()
-                                if ret:
-                                    np_bytes = io.BytesIO()
-                                    np.save(np_bytes, myframe, allow_pickle=True)
-                                    np_bytes = np_bytes.getvalue()
-                                    #self.stream.send(msg=np_bytes)
-                                    conn.sendall(b'---STARTFRAME---')
-                                    conn.sendall(np_bytes)
-                                    conn.flush()
-            except:
-                time.sleep(1)
-                pass
-
-     
-
-            
-    def stopStream(self):
+    def start(self):
         self.stop = 0
+        self.cap = cv2.VideoCapture(0)
+
+        try:
+            if self.cap.isOpened():
+                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                    s.bind(('', 1884))
+                    s.listen()
+                    conn, addr = s.accept()
+
+                    with conn:
+                        while self.stop == 0:   
+                            ret, frame = self.cap.read()
+                            if ret:
+                                conn.sendall(cv2.imencode('.jpg', frame))
+                                conn.flush()
+        except:
+            pass
+
+
+    def stopStream(self):
+        self.stop = 1
+
     
 
-
+    # Later: For each connection start a thread
 
 
 class Camera():
@@ -61,6 +46,7 @@ class Camera():
     def __init__(self):
         self.queue = msg.msg(msgName='camera')
         self.stream = None
+        self.server = None
                     
 
 
