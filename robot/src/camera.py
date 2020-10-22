@@ -16,22 +16,22 @@ class Stream(Thread):
         self.stop = 0
         self.cap = cv2.VideoCapture(0)
 
-        try:
-            if self.cap.isOpened():
-                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                    s.bind(('', 1884))
-                    s.listen()
-                    conn, addr = s.accept()
+        
+        if self.cap.isOpened():
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(('', 1884))
+                s.listen()
+                conn, addr = s.accept()
 
-                    with conn:
-                        while self.stop == 0:   
+                with conn:
+                    while self.stop == 0:
+                        try:
                             ret, frame = self.cap.read()
                             if ret:
                                 _, jpgframe=cv2.imencode('.jpg', frame)
                                 conn.sendall(jpgframe)
-                                conn.flush()
-        except:
-            pass
+                        except:
+                            pass
 
 
     def stopStream(self):

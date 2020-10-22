@@ -24,16 +24,18 @@ class Viewer():
             while True:
                 try:
                     bytes+=s.recv(1024)
-                    print (bytes)
-                    print("---")
                     start = bytes.find('\xff\xd8')
                     end = bytes.find('\xff\xd9')
 
                     if start != -1 and end != -1:
+                        print("image")
                         frame=bytes[start:end+2]
                         bytes=bytes[end+2:]
+                        print("image step 2")
                         img = cv2.imdecode(np.fromstring(frame, dtype=np.uint8),cv2.IMREAD_COLOR)
+                        print("image step 3")
                         cv2.imshow('robot', img)
+                        print("image step 4")
                 except:
                     pass
 
