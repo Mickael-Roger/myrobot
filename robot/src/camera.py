@@ -27,7 +27,8 @@ class Stream(Thread):
                         while self.stop == 0:   
                             ret, frame = self.cap.read()
                             if ret:
-                                conn.sendall(cv2.imencode('.jpg', frame))
+                                #conn.sendall(cv2.imencode('.jpg', frame))
+                                conn.sendall(b'TOTO')
                                 conn.flush()
         except:
             pass

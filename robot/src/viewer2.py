@@ -17,11 +17,15 @@ class Viewer():
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.connect(('192.168.1.26', 1884))
             
-            bytes=''
+            bytes=b''
+
+            print("Connected", flush=True)
 
             while True:
                 try:
                     bytes+=s.recv(1024)
+                    print (bytes)
+                    print("---")
                     start = bytes.find('\xff\xd8')
                     end = bytes.find('\xff\xd9')
 
