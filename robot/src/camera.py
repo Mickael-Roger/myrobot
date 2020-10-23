@@ -9,7 +9,9 @@ import cv2
 
 
 class Stream(Thread):
+    
     def __init__(self):
+        threading.Thread.__init__(self)
         self.stop = 1
 
     def start(self):
