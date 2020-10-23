@@ -61,13 +61,19 @@ class Camera():
             if msg['action'] == 'startstream':
                 if self.stream == None :
                     self.stream = Stream()
+                    print('start')
                     self.stream.start()
+                    print('end start')
             
             elif msg['action'] == 'stopstream':
                 if self.stream != None :
+                    print("stop 1")
                     self.stream.stopStream()
+                    print("stop 2")
                     self.stream.join()
+                    print("stop 3")
                     self.stream = None
+                    print("stop 4")
 
         except:
             pass
