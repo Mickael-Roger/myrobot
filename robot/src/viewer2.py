@@ -21,20 +21,32 @@ class Viewer():
 
             print("Connected", flush=True)
 
-            while True:
-                try:
-                    bytes+=s.recv(1024)
-                    start = bytes.find(b'\xff\xd8')
-                    end = bytes.find(b'\xff\xd9')
+            firstframe = 0
 
-                    if start != -1 and end != -1:
-                        frame=bytes[start:end+2]
-                        bytes=bytes[end+2:]
-                        img = cv2.imdecode(np.fromstring(frame, dtype=np.uint8),cv2.IMREAD_COLOR)
-                        cv2.imshow('robot', img)
+            while True:
+                #try:
+                bytes+=s.recv(1024)
+                start = bytes.find(b'\xff\xd8')
+                end = bytes.find(b'\xff\xd9')
+
+                if start != -1 and end != -1:
+                    frame=bytes[start:end+2]
+                    bytes=bytes[end+2:]
+                    img = cv2.imdecode(np.fromstring(frame, dtype=np.uint8),cv2.IMREAD_COLOR)
+
+                    if firstframe > 0:
+                        diff = cv2.absdiff(last_frame, img)
+                        
+
+                        cv2.imshow('robot', diff)
                         key = cv2.waitKey(1) & 0xFF
-                except:
-                    pass
+                    
+                    else:
+                        firstframe = 1
+                        
+                    last_frame=img.copy()
+                #except:
+                #    pass
 
 
 if __name__ == '__main__':
