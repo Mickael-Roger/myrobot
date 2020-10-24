@@ -20,6 +20,7 @@ services:
     build:
       context: ./robot/
       dockerfile: Dockerfile-robot
+    restart: always
     environment:
       PYTHONUNBUFFERED: 1
   camera:
@@ -27,6 +28,7 @@ services:
       context: ./robot/
       dockerfile: Dockerfile-camera
     privileged: true
+    restart: always
     environment:
       PYTHONUNBUFFERED: 1
     ports:
@@ -36,6 +38,7 @@ services:
       context: ./robot/
       dockerfile: Dockerfile-motors
     privileged: true
+    restart: always
     environment:
       PYTHONUNBUFFERED: 1
 
